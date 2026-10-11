@@ -24,6 +24,10 @@ public record Cashback(int percent) implements Comparable<Cashback> {
         return new Cashback(percent);
     }
 
+    public Cashback doubled() {
+        return new Cashback(Math.multiplyExact(percent, 2));
+    }
+
     @Override
     public int compareTo(Cashback other) {
         return Integer.compare(percent, other.percent);

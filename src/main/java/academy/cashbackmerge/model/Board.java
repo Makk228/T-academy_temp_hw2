@@ -27,11 +27,21 @@ public final class Board {
     }
 
     public static Board empty(int size) {
+        return new Board(requireValidSize(size), Map.of());
+    }
+
+    public static Board of(int size, Map<Position, Cashback> tiles) {
+        var board = new Board(requireValidSize(size), tiles);
+        board.tiles.keySet().forEach(board::requireInBounds);
+        return board;
+    }
+
+    private static int requireValidSize(int size) {
         if (size < MIN_SIZE) {
             throw new IllegalArgumentException(
                     "размер поля должен быть не меньше %d, получено %d".formatted(MIN_SIZE, size));
         }
-        return new Board(size, Map.of());
+        return size;
     }
 
     public int size() {
