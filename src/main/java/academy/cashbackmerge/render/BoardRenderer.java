@@ -35,12 +35,8 @@ public final class BoardRenderer {
     }
 
     public static String render(GameState state) {
-        var header = "Ходы: %d из %d (осталось %d), score: %s"
-                .formatted(
-                        state.movesUsed(),
-                        state.movesLimit(),
-                        state.movesLeft(),
-                        state.score().toPlainString());
+        var header = "Ходы: %d из %d (осталось %d), score: %d"
+                .formatted(state.movesUsed(), state.movesLimit(), state.movesLeft(), state.score());
         return header + "\n" + render(state.board());
     }
 

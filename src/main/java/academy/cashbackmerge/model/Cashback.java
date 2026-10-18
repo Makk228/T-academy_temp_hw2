@@ -1,33 +1,36 @@
 package academy.cashbackmerge.model;
 
-import java.math.BigDecimal;
-import java.util.Objects;
+import academy.cashbackmerge.util.Decimals;
 
-public record Cashback(BigDecimal percent) implements Comparable<Cashback> {
+public record Cashback(int percent) implements Comparable<Cashback> {
 
     public Cashback {
-        Objects.requireNonNull(percent, "percent");
-        if (percent.signum() <= 0) {
-            throw new IllegalArgumentException("кэшбэк должен быть больше 0, получено " + percent.toPlainString());
+        if (percent <= 0 || Integer.bitCount(percent) != 1) {
+            throw new IllegalArgumentException(
+                    "кэшбэк должен быть степенью двойки (1, 2, 4, 8, ...), получено " + percent);
         }
-        percent = percent.stripTrailingZeros();
     }
 
     public static Cashback parse(String text) {
-        return new Cashback(Decimals.parse(text));
+        var value = Decimals.parse(text);
+        try {
+            return new Cashback(value.intValueExact());
+        } catch (ArithmeticException e) {
+            throw new IllegalArgumentException("кэшбэк должен быть целым числом процентов, получено '" + text + "'", e);
+        }
     }
 
-    public static Cashback of(long percent) {
-        return new Cashback(BigDecimal.valueOf(percent));
+    public static Cashback of(int percent) {
+        return new Cashback(percent);
     }
 
     @Override
     public int compareTo(Cashback other) {
-        return percent.compareTo(other.percent);
+        return Integer.compare(percent, other.percent);
     }
 
     public String toPlainString() {
-        return percent.toPlainString();
+        return String.valueOf(percent);
     }
 
     @Override

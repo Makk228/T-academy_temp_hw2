@@ -1,6 +1,6 @@
 package academy.cashbackmerge.config;
 
-import academy.cashbackmerge.model.Decimals;
+import academy.cashbackmerge.util.Decimals;
 import java.math.BigDecimal;
 import java.util.Objects;
 

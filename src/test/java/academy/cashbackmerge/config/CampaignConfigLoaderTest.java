@@ -85,8 +85,23 @@ class CampaignConfigLoaderTest {
         assertThat(errorsOf(json))
                 .containsExactly(
                         "spawnRules[0].cashback: ожидалось число, получено 'abc'",
-                        "spawnRules[1].cashback: кэшбэк должен быть больше 0, получено -2",
+                        "spawnRules[1].cashback: кэшбэк должен быть степенью двойки (1, 2, 4, 8, ...), получено -2",
                         "spawnRules[1].probability: ожидалось число от 0 до 1, получено 1.5");
+    }
+
+    @Test
+    @DisplayName("Кэшбэк не степень двойки или дробный — отклоняется: слиянием такую плитку не получить")
+    void cashbackMustBePowerOfTwo() {
+        var json = CampaignJson.valid()
+                .replace("{ \"cashback\": \"4\",  \"reward\": \"50\" }", "{ \"cashback\": \"3\",  \"reward\": \"50\" }")
+                .replace(
+                        "{ \"cashback\": \"8\",  \"reward\": \"150\" }",
+                        "{ \"cashback\": \"8.5\",  \"reward\": \"150\" }");
+
+        assertThat(errorsOf(json))
+                .containsExactly(
+                        "rewardTable[1].cashback: кэшбэк должен быть степенью двойки (1, 2, 4, 8, ...), получено 3",
+                        "rewardTable[2].cashback: кэшбэк должен быть целым числом процентов, получено '8.5'");
     }
 
     @Test

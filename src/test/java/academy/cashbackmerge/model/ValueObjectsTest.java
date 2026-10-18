@@ -3,7 +3,6 @@ package academy.cashbackmerge.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.math.BigDecimal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,8 +20,8 @@ class ValueObjectsTest {
     }
 
     @ParameterizedTest(name = "\"{0}\"")
-    @ValueSource(strings = {"0", "-1", "abc", ""})
-    @DisplayName("Кэшбэк должен быть положительным числом")
+    @ValueSource(strings = {"0", "-1", "3", "6", "1.5", "abc", ""})
+    @DisplayName("Кэшбэк должен быть целой степенью двойки")
     void invalidCashbackIsRejected(String text) {
         assertThatThrownBy(() -> Cashback.parse(text)).isInstanceOf(IllegalArgumentException.class);
     }
@@ -34,7 +33,7 @@ class ValueObjectsTest {
 
         assertThat(state.movesUsed()).isZero();
         assertThat(state.movesLeft()).isEqualTo(10);
-        assertThat(state.score()).isEqualByComparingTo(BigDecimal.ZERO);
+        assertThat(state.score()).isZero();
         assertThat(state.isFinished()).isFalse();
     }
 
@@ -44,8 +43,7 @@ class ValueObjectsTest {
         var board = Board.empty();
 
         assertThatThrownBy(() -> GameState.initial(board, 0)).hasMessageContaining("movesLimit");
-        assertThatThrownBy(() -> new GameState(board, 5, 6, BigDecimal.ZERO)).hasMessageContaining("movesUsed");
-        assertThatThrownBy(() -> new GameState(board, 5, 0, BigDecimal.ONE.negate()))
-                .hasMessageContaining("score");
+        assertThatThrownBy(() -> new GameState(board, 5, 6, 0)).hasMessageContaining("movesUsed");
+        assertThatThrownBy(() -> new GameState(board, 5, 0, -1)).hasMessageContaining("score");
     }
 }
