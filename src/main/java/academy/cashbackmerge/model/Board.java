@@ -1,11 +1,11 @@
 package academy.cashbackmerge.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.StringJoiner;
+import java.util.stream.IntStream;
 import org.jspecify.annotations.Nullable;
 
 public final class Board {
@@ -27,11 +27,21 @@ public final class Board {
     }
 
     public static Board empty(int size) {
+        return new Board(requireValidSize(size), Map.of());
+    }
+
+    public static Board of(int size, Map<Position, Cashback> tiles) {
+        var board = new Board(requireValidSize(size), tiles);
+        board.tiles.keySet().forEach(board::requireInBounds);
+        return board;
+    }
+
+    private static int requireValidSize(int size) {
         if (size < MIN_SIZE) {
             throw new IllegalArgumentException(
                     "размер поля должен быть не меньше %d, получено %d".formatted(MIN_SIZE, size));
         }
-        return new Board(size, Map.of());
+        return size;
     }
 
     public int size() {
@@ -57,13 +67,9 @@ public final class Board {
     }
 
     public List<Position> positions() {
-        var result = new ArrayList<Position>(size * size);
-        for (int row = 0; row < size; row++) {
-            for (int column = 0; column < size; column++) {
-                result.add(new Position(row, column));
-            }
-        }
-        return List.copyOf(result);
+        return IntStream.range(0, size * size)
+                .mapToObj(i -> new Position(i / size, i % size))
+                .toList();
     }
 
     public List<Position> emptyCells() {

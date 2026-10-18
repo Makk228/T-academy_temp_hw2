@@ -1,8 +1,10 @@
 package academy.cashbackmerge.mandatory.mr2;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Disabled;
+import academy.cashbackmerge.engine.BoardShift;
+import academy.cashbackmerge.engine.Direction;
+import academy.cashbackmerge.support.TestBoards;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,23 +21,39 @@ class MergeRulesTest {
         "'1,1,1,1', '2,2,.,.'",
         "'2,2,4,4', '4,8,.,.'",
     })
-    @Disabled("MR2: реализуй тест и удали эту строку")
     @DisplayName("Сдвиг влево: {0} -> {1}")
     void rowShiftsLeftAndMerges(String before, String expected) {
-        fail("Тест не реализован");
+        var board = TestBoards.of(before);
+
+        var shifted = BoardShift.shift(board, Direction.LEFT);
+
+        assertThat(TestBoards.firstRow(shifted.board())).isEqualTo(expected);
+        assertThat(shifted.changed()).isTrue();
     }
 
     @Test
-    @Disabled("MR2: реализуй тест и удали эту строку")
     @DisplayName("Одна плитка не сливается дважды за ход: [1,1,2,.] -> [2,2,.,.]")
     void tileDoesNotMergeTwiceInOneMove() {
-        fail("Тест не реализован");
+        var board = TestBoards.of("1,1,2,.");
+
+        var shifted = BoardShift.shift(board, Direction.LEFT);
+
+        assertThat(TestBoards.firstRow(shifted.board())).isEqualTo("2,2,.,.");
+        assertThat(shifted.score()).as("слилась только пара единиц").isEqualTo(2);
     }
 
     @Test
-    @Disabled("MR2: реализуй тест и удали эту строку")
     @DisplayName("Слияние работает во всех четырёх направлениях")
     void mergeWorksInAllDirections() {
-        fail("Тест не реализован");
+        var board = TestBoards.of("1,1,.,.", "1,.,.,.");
+
+        assertThat(BoardShift.shift(board, Direction.LEFT).board())
+                .hasToString("[2,.,.,.]/[1,.,.,.]/[.,.,.,.]/[.,.,.,.]");
+        assertThat(BoardShift.shift(board, Direction.RIGHT).board())
+                .hasToString("[.,.,.,2]/[.,.,.,1]/[.,.,.,.]/[.,.,.,.]");
+        assertThat(BoardShift.shift(board, Direction.UP).board())
+                .hasToString("[2,1,.,.]/[.,.,.,.]/[.,.,.,.]/[.,.,.,.]");
+        assertThat(BoardShift.shift(board, Direction.DOWN).board())
+                .hasToString("[.,.,.,.]/[.,.,.,.]/[.,.,.,.]/[2,1,.,.]");
     }
 }

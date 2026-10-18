@@ -3,6 +3,7 @@ package academy.cashbackmerge.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -55,6 +56,18 @@ class BoardTest {
                 .isInstanceOf(IndexOutOfBoundsException.class)
                 .hasMessage("клетка (4, 0) за границами поля 4x4");
         assertThatThrownBy(() -> new Position(-1, 0)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("Поле из набора плиток проверяет границы")
+    void boardFromTilesChecksBounds() {
+        var tiles = Map.of(new Position(0, 0), Cashback.of(1), new Position(0, 4), Cashback.of(2));
+
+        assertThatThrownBy(() -> Board.of(4, tiles))
+                .isInstanceOf(IndexOutOfBoundsException.class)
+                .hasMessage("клетка (0, 4) за границами поля 4x4");
+        assertThat(Board.of(4, Map.of(new Position(3, 3), Cashback.of(2))).tileCount())
+                .isEqualTo(1);
     }
 
     @Test
