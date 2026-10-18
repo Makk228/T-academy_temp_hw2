@@ -43,8 +43,7 @@ public final class MoveEngine {
     }
 
     private static Position findSingleNewTile(Board before, Board after) {
-        var added = after.positions().stream()
-                .filter(before::isEmptyAt)
+        var added = before.emptyCells().stream()
                 .filter(position -> !after.isEmptyAt(position))
                 .toList();
         boolean othersKept = before.tiles().entrySet().stream()

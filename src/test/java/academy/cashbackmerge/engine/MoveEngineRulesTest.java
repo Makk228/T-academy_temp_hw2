@@ -29,6 +29,19 @@ class MoveEngineRulesTest {
     }
 
     @Test
+    @DisplayName("Линия читается от стены, к которой едут плитки")
+    void directionLinesStartAtTargetWall() {
+        assertThat(Direction.LEFT.line(1, 4))
+                .containsExactly(new Position(1, 0), new Position(1, 1), new Position(1, 2), new Position(1, 3));
+        assertThat(Direction.RIGHT.line(1, 4))
+                .containsExactly(new Position(1, 3), new Position(1, 2), new Position(1, 1), new Position(1, 0));
+        assertThat(Direction.UP.line(2, 4))
+                .containsExactly(new Position(0, 2), new Position(1, 2), new Position(2, 2), new Position(3, 2));
+        assertThat(Direction.DOWN.line(2, 4))
+                .containsExactly(new Position(3, 2), new Position(2, 2), new Position(1, 2), new Position(0, 2));
+    }
+
+    @Test
     @DisplayName("Заблокированное поле: ходов нет, партия окончена до лимита")
     void blockedBoardEndsGame() {
         var board = TestBoards.of("1,2,1,2", "2,1,2,1", "1,2,1,2", "2,1,2,1");

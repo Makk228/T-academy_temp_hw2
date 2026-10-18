@@ -1,27 +1,40 @@
 package academy.cashbackmerge.engine;
 
 import academy.cashbackmerge.model.Position;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public enum Direction {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT;
+    UP {
+        @Override
+        Position cell(int index, int step, int size) {
+            return new Position(step, index);
+        }
+    },
+    DOWN {
+        @Override
+        Position cell(int index, int step, int size) {
+            return new Position(size - 1 - step, index);
+        }
+    },
+    LEFT {
+        @Override
+        Position cell(int index, int step, int size) {
+            return new Position(index, step);
+        }
+    },
+    RIGHT {
+        @Override
+        Position cell(int index, int step, int size) {
+            return new Position(index, size - 1 - step);
+        }
+    };
 
     public List<Position> line(int index, int size) {
-        var cells = new ArrayList<Position>(size);
-        for (int step = 0; step < size; step++) {
-            int reversed = size - 1 - step;
-            cells.add(
-                    switch (this) {
-                        case LEFT -> new Position(index, step);
-                        case RIGHT -> new Position(index, reversed);
-                        case UP -> new Position(step, index);
-                        case DOWN -> new Position(reversed, index);
-                    });
-        }
-        return List.copyOf(cells);
+        return IntStream.range(0, size)
+                .mapToObj(step -> cell(index, step, size))
+                .toList();
     }
+
+    abstract Position cell(int index, int step, int size);
 }

@@ -95,7 +95,7 @@ class MoveEngineTest {
         assertThat(result.state().movesLeft()).isEqualTo(9);
 
         var next = engine.applyMove(result.state(), Direction.DOWN);
-        assertThat(next.changed()).as("после 32%% можно ходить дальше").isTrue();
+        assertThat(next.changed()).as("после 32% можно ходить дальше").isTrue();
     }
 
     @Test
