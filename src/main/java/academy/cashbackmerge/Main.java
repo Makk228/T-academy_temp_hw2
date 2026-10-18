@@ -1,5 +1,6 @@
 package academy.cashbackmerge;
 
+import academy.cashbackmerge.cli.CashbackMergeCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,8 +14,7 @@ public final class Main {
     public static void main(String[] args) {
         LOG.debug("Аргументы запуска: {}", String.join(" ", args));
 
-        // TODO: разобрать аргументы и запустить нужный режим.
-        System.out.println("Cashback Merge — шаблон проекта Т-Академии.");
-        System.out.println("Ничего ещё не реализовано. Начни с README.");
+        int exitCode = CashbackMergeCommand.commandLine().execute(args);
+        System.exit(exitCode);
     }
 }
