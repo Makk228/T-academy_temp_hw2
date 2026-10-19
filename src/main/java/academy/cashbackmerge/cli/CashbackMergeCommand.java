@@ -12,7 +12,7 @@ import picocli.CommandLine.Spec;
         mixinStandardHelpOptions = true,
         version = "cashback-merge 1.0.0",
         description = "Мини-игра в духе 2048 с плитками кэшбэка и симуляцией промоакции.",
-        subcommands = {NewGameCommand.class, CommandLine.HelpCommand.class})
+        subcommands = {NewGameCommand.class, SimulateCommand.class, CommandLine.HelpCommand.class})
 public final class CashbackMergeCommand implements Runnable {
 
     public static final int EXIT_INVALID_CONFIG = 3;
@@ -23,6 +23,7 @@ public final class CashbackMergeCommand implements Runnable {
 
     public static CommandLine commandLine() {
         return new CommandLine(new CashbackMergeCommand())
+                .setCaseInsensitiveEnumValuesAllowed(true)
                 .setExecutionExceptionHandler(CashbackMergeCommand::handleExecutionException);
     }
 

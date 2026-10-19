@@ -1,0 +1,22 @@
+{
+  "_note": "Тот же конфиг, что campaign.example.json, но с лимитом 42 хода: при 100 ходах до 32% доходят ~92% игроков, при 42 — ~15% (стратегия random, 10000 игроков). Лимит подобран симуляцией.",
+
+  "boardSize": 4,
+  "movesLimit": 42,
+
+  "spawnRules": [
+    { "cashback": "1", "probability": "0.85" },
+    { "cashback": "2", "probability": "0.15" }
+  ],
+
+  "rewardTable": [
+    { "cashback": "2",  "reward": "0" },
+    { "cashback": "4",  "reward": "50" },
+    { "cashback": "8",  "reward": "150" },
+    { "cashback": "16", "reward": "500" },
+    { "cashback": "32", "reward": "2000" }
+  ],
+
+  "maxRewardCashback": "32",
+  "maxRewardAllowedRate": "0.20"
+}

@@ -1,5 +1,6 @@
 package academy.cashbackmerge.model;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,6 +79,10 @@ public final class Board {
 
     public int tileCount() {
         return tiles.size();
+    }
+
+    public Optional<Cashback> maxTile() {
+        return tiles.values().stream().max(Comparator.naturalOrder());
     }
 
     public Map<Position, Cashback> tiles() {
