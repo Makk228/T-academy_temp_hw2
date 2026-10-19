@@ -1,0 +1,112 @@
+{
+  "status" : "OK",
+  "config" : {
+    "source" : "config/campaign.balanced.json",
+    "boardSize" : 4,
+    "movesLimit" : 42,
+    "spawnRules" : [
+      {
+        "cashback" : "1",
+        "probability" : "0.85"
+      },
+      {
+        "cashback" : "2",
+        "probability" : "0.15"
+      }
+    ],
+    "rewardTable" : [
+      {
+        "cashback" : "2",
+        "reward" : "0"
+      },
+      {
+        "cashback" : "4",
+        "reward" : "50"
+      },
+      {
+        "cashback" : "8",
+        "reward" : "150"
+      },
+      {
+        "cashback" : "16",
+        "reward" : "500"
+      },
+      {
+        "cashback" : "32",
+        "reward" : "2000"
+      }
+    ],
+    "maxRewardCashback" : "32",
+    "maxRewardAllowedRate" : "0.2"
+  },
+  "simulation" : {
+    "players" : 10000,
+    "strategy" : "random",
+    "seed" : 42
+  },
+  "maxTileDistribution" : [
+    {
+      "cashback" : "4",
+      "players" : 1,
+      "rate" : "0.000100"
+    },
+    {
+      "cashback" : "8",
+      "players" : 264,
+      "rate" : "0.026400"
+    },
+    {
+      "cashback" : "16",
+      "players" : 8211,
+      "rate" : "0.821100"
+    },
+    {
+      "cashback" : "32",
+      "players" : 1524,
+      "rate" : "0.152400"
+    }
+  ],
+  "rewardDistribution" : [
+    {
+      "tier" : "2",
+      "reward" : "0",
+      "players" : 0,
+      "rate" : "0.000000"
+    },
+    {
+      "tier" : "4",
+      "reward" : "50",
+      "players" : 1,
+      "rate" : "0.000100"
+    },
+    {
+      "tier" : "8",
+      "reward" : "150",
+      "players" : 264,
+      "rate" : "0.026400"
+    },
+    {
+      "tier" : "16",
+      "reward" : "500",
+      "players" : 8211,
+      "rate" : "0.821100"
+    },
+    {
+      "tier" : "32",
+      "reward" : "2000",
+      "players" : 1524,
+      "rate" : "0.152400"
+    }
+  ],
+  "score" : {
+    "average" : "133.10",
+    "max" : 208
+  },
+  "maxReward" : {
+    "cashback" : "32",
+    "players" : 1524,
+    "actualRate" : "0.152400",
+    "margin95" : "0.007044",
+    "allowedRate" : "0.2"
+  }
+}
